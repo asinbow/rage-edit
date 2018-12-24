@@ -77,8 +77,8 @@ export var spawn = async (program, args) => {
 
 	var stdout = ''
 	var stderr = ''
-	proc.stdout.on('data', data => stdout += data.toString())
-	proc.stderr.on('data', data => stderr += data.toString())
+	proc.stdout.on('data', data => stdout += Registry.decodeStdout ? Registry.decodeStdout(data) : data.toString())
+	proc.stderr.on('data', data => stderr += Registry.decodeStdout ? Registry.decodeStdout(data) : data.toString())
 
 	var result = await Promise.race([
 		promiseOnce(proc, 'close'),
